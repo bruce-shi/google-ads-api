@@ -8,6 +8,7 @@
         "prepare-release": "run-s test version",
         "version": "standard-version",
         "clean": "rm -rf build/",
+        "prepack": "npm run build",
         "build": "tsc",
         "watch": "tsc -w",
         "test": "run-s clean build test:unit",
