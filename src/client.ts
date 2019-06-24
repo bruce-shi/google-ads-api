@@ -17,6 +17,7 @@ interface ClientOptions {
 interface CustomerAuth {
     customer_account_id?: string
     refresh_token?: string
+    access_token?: string
     login_customer_id?: string
 }
 
@@ -58,12 +59,17 @@ export default class GoogleAdsApi {
     public Customer({
         customer_account_id,
         refresh_token,
+        access_token,
         login_customer_id,
         pre_report_hook,
         post_report_hook,
     }: CustomerOptions): CustomerInstance {
-        if (!customer_account_id || !refresh_token) {
-            throw new Error('Must specify {customer_account_id, refresh_token}')
+        if (!customer_account_id) {
+            throw new Error('Must specify {customer_account_id}')
+        }
+
+        if (!access_token && !refresh_token) {
+            throw new Error('Must specify {access token or refresh token}')
         }
 
         pre_report_hook = pre_report_hook || noop
@@ -77,6 +83,7 @@ export default class GoogleAdsApi {
             this.options.client_id,
             this.options.client_secret,
             refresh_token as string,
+            access_token as string,
             login_customer_id
         )
 

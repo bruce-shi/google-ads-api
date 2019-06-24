@@ -16,23 +16,35 @@ export default class GrpcClient {
         client_id: string,
         client_secret: string,
         refresh_token: string,
+        access_token: string,
         login_customer_id?: string
     ) {
-        this.client = new GoogleAdsClient({
+        const options = {
             developer_token,
             client_id,
             client_secret,
-            refresh_token,
             login_customer_id,
             parseResults: true,
-            async accessTokenGetter(clientId: string, clientSecret: string, refreshToken: string) {
-                return getAccessToken({
-                    client_id: clientId,
-                    client_secret: clientSecret,
-                    refresh_token: refreshToken,
-                })
-            },
-        })
+        }
+
+        if (access_token) {
+            this.client = new GoogleAdsClient({
+                ...options,
+                access_token,
+            })
+        } else {
+            this.client = new GoogleAdsClient({
+                ...options,
+                refresh_token,
+                async accessTokenGetter(clientId: string, clientSecret: string, refreshToken: string) {
+                    return getAccessToken({
+                        client_id: clientId,
+                        client_secret: clientSecret,
+                        refresh_token: refreshToken,
+                    })
+                },
+            })
+        }
     }
 
     public async searchWithRetry(throttler: Bottleneck, request: SearchGoogleAdsRequest) {
