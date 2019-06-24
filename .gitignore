@@ -80,6 +80,5 @@ typings/
 .serverless
 .DS_Store
 
-build/
 .env
 .cache

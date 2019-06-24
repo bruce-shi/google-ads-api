@@ -1,0 +1,10 @@
+export declare const CID: string;
+export declare const CID_WITH_METRICS: string;
+export declare const CUSTOMER_CLIENT_LINK: string;
+export declare const CAMPAIGN_ID: number;
+export declare const BUDGET_ID: number;
+export declare const ADGROUP_ID: number;
+export declare function newCustomer(): import("./customer").CustomerInstance;
+export declare function newCustomerWithMetrics(): import("./customer").CustomerInstance;
+export declare function newMccCustomer(): import("./customer").CustomerInstance;
+export declare function getRandomName(entity: string): string;
