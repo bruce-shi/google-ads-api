@@ -31,15 +31,18 @@ class GoogleAdsApi {
             console.error(err);
         });
     }
-    Customer({ customer_account_id, refresh_token, login_customer_id, pre_report_hook, post_report_hook, }) {
-        if (!customer_account_id || !refresh_token) {
-            throw new Error('Must specify {customer_account_id, refresh_token}');
+    Customer({ customer_account_id, refresh_token, access_token, login_customer_id, pre_report_hook, post_report_hook, }) {
+        if (!customer_account_id) {
+            throw new Error('Must specify {customer_account_id}');
+        }
+        if (!access_token && !refresh_token) {
+            throw new Error('Must specify {access token or refresh token}');
         }
         pre_report_hook = pre_report_hook || lodash_1.noop;
         post_report_hook = post_report_hook || lodash_1.noop;
         customer_account_id = utils_1.normaliseCustomerId(customer_account_id);
         login_customer_id = utils_1.normaliseCustomerId(login_customer_id);
-        const client = new grpc_1.default(this.options.developer_token, this.options.client_id, this.options.client_secret, refresh_token, login_customer_id);
+        const client = new grpc_1.default(this.options.developer_token, this.options.client_id, this.options.client_secret, refresh_token, access_token, login_customer_id);
         return customer_1.default(customer_account_id, client, this.throttler, pre_report_hook, post_report_hook);
     }
 }

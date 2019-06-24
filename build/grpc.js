@@ -11,24 +11,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const google_ads_node_1 = require("google-ads-node");
 const token_1 = require("./token");
 class GrpcClient {
-    constructor(developer_token, client_id, client_secret, refresh_token, login_customer_id) {
-        this.client = new google_ads_node_1.GoogleAdsClient({
+    constructor(developer_token, client_id, client_secret, refresh_token, access_token, login_customer_id) {
+        const options = {
             developer_token,
             client_id,
             client_secret,
-            refresh_token,
             login_customer_id,
             parseResults: true,
-            accessTokenGetter(clientId, clientSecret, refreshToken) {
-                return __awaiter(this, void 0, void 0, function* () {
-                    return token_1.getAccessToken({
-                        client_id: clientId,
-                        client_secret: clientSecret,
-                        refresh_token: refreshToken,
+        };
+        if (access_token) {
+            this.client = new google_ads_node_1.GoogleAdsClient(Object.assign({}, options, { access_token }));
+        }
+        else {
+            this.client = new google_ads_node_1.GoogleAdsClient(Object.assign({}, options, { refresh_token,
+                accessTokenGetter(clientId, clientSecret, refreshToken) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        return token_1.getAccessToken({
+                            client_id: clientId,
+                            client_secret: clientSecret,
+                            refresh_token: refreshToken,
+                        });
                     });
-                });
-            },
-        });
+                } }));
+        }
     }
     searchWithRetry(throttler, request) {
         return __awaiter(this, void 0, void 0, function* () {
