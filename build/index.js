@@ -25,3 +25,5 @@ const utils_1 = require("./utils");
 exports.fromMicros = utils_1.fromMicros;
 exports.toMicros = utils_1.toMicros;
 exports.getEnumString = utils_1.getEnumString;
+const token_1 = require("./token");
+exports.getAccessToken = token_1.getAccessToken;

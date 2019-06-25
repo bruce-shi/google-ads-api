@@ -3,4 +3,5 @@ import * as enums from 'google-ads-node/build/lib/enums';
 import * as types from 'google-ads-node/build/lib/resources';
 import { fromMicros, toMicros, getEnumString } from './utils';
 import { CustomerInstance } from './customer';
-export { GoogleAdsApi, enums, types, fromMicros, toMicros, getEnumString, CustomerInstance };
+import { getAccessToken } from './token';
+export { GoogleAdsApi, enums, types, fromMicros, toMicros, getEnumString, CustomerInstance, getAccessToken };
